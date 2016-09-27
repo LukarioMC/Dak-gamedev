@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<title>Dakaro T1A03</title>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link href="../main.css" rel="stylesheet">
+		<script>
+			function loopAdd(){
+				myIn = parseInt(document.getElementById('myIn').value);
+				myOut = document.getElementById('myOut');
+				myOut.innerHTML = "";
+				
+				if(false){
+					myOut.innerHTML = "Enter a number!";
+				} else {
+					for(i=1; i<=myIn; i++){
+						if(i==2){
+							myOut.innerHTML += "<font color='red' id='" + i + "'>" + i + "</font><br>"
+						} else if(i==4){
+							myOut.innerHTML += "<font color='blue' id='" + i + "'>" + i + "</font><br>"
+						} else if(i>=6 && i<=8){
+							myOut.innerHTML += "<font color='yellow' id='" + i + "'>" + i + "</font><br>"
+						} else if(i>10){
+							myOut.innerHTML += "<font color='pink' id='" + i + "'>" + i + "</font><br>"
+						} else {
+							myOut.innerHTML += "<font id='" + i + "'>" + i + "</font><br>"
+						}
+						
+						if(i>1 && i<5){
+							document.getElementById(i).style = "background-color: yellow;";
+						} else if(i>7){
+							document.getElementById(i).style = "background-color: brown;";
+						}
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1 align=center>T1A03 Color By Dakaro</h1><br>
+		<input type=text value="12" placeholder="Insert number" id="myIn">
+		<input type=button value="Loop Add" onClick="loopAdd()"><br>
+		<div id="myOut"></div>
+		<input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+	</body>
+</html>
