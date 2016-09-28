@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dakaro Array</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="../main.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Dakaro's Arrays</h1>
+    
+    <script>
+        myArray = new Array();
+        myArray[0] = 35;
+        myArray[1] = 17;
+        myArray[2] = 404;
+        myArray[3] = 42;
+        myArray[4] = 31;
+        myArray[5] = 666;
+        myArray[6] = 56;
+        myArray[7] = 89;
+        myArray[8] = 93;
+        myArray[9] = 74;
+        
+        document.writeln(myArray[7]);
+        document.writeln("<br>First Array: ");
+        for(i=0; i<myArray.length; i++){
+            document.writeln(myArray[i]);
+        }
+        
+        myArray2 = [25,27,43,62,89,65,76,42,63,88];
+        document.writeln("<br>Second Array: ");
+        for(i=0; i<myArray2.length; i++){
+            document.writeln(myArray2[i]);
+        }
+        
+        myArray3 = new Array();
+        document.writeln("<br>Third Array: ");
+        for(i=0; i<100; i++){
+            max = 999;
+            min = 100;
+            myArray3[i] = Math.floor(Math.random() * (max - min + 1) + min);
+            document.writeln(myArray3[i]);
+        }
+    </script>
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>
