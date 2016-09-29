@@ -1,7 +1,7 @@
 pgb-cloud9
 =====================
 
-![alt text](https://chart.googleapis.com/chart?chs=116x116&cht=qr&chl=https://build.phonegap.com/apps/2283250/install/ZTYhGmJGaXpyxc92hCuB&chld=L|1&choe=UTF-8 "Download This Website as an App")
+![alt text](QR.png "Download This Website as an App")
 
 
 An installation video of all but the recent stuff is at
