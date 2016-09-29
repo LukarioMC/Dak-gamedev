@@ -2,35 +2,14 @@ pgb-cloud9
 =====================
 
 ![My QR Code](QR.png "Download This Website as an App")
-!(QR.png)
 
 An installation video of all but the recent stuff is at
-
-
-
-
-https://youtu.be/ReaxoSIM5XQ
-
-
-
-
-
 
 [![Instructional video](http://img.youtube.com/vi/5K75wV8FybQ/0.jpg)](https://youtu.be/5K75wV8FybQ)
 
 
-
-or google youtube videos " What to do after the hour of code"
-
-
-Note: the not-yet-working folder means these programs have not yet been perfected by the student. All the programs actually work in a very basic way.
-
-
-
-
-
 Sign up for cloud9
-creat new box -- from url
+Create new box from url
 
 https://github.com/hpssjellis/pgb-cloud9.git
 
@@ -51,23 +30,3 @@ enter that url in the phonegap developer app on your mobile device
 
 
 ####Use this github site at your own risk!
-Note: This site will be changing as new information is found.
-
-
-
-************************************************************************************************************
-
-###Disclaimer: I spend my time getting complex things working in simple ways. I have no idea if I am doing anything correctly so please beware if you use my work. If you like this App and can hum, play or sing please help the musically illiterate, use a flash capable computer to add your favorite song at http://www.rocksetta.com                              twitter @rocksetta 
-
-
-
-
-
-
-
-
-
-
-
-
-
