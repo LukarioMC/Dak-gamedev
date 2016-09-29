@@ -2,7 +2,7 @@ pgb-cloud9
 =====================
 
 ![My QR Code](QR.png "Download This Website as an App")
-![](QR.png)
+!(QR.png)
 
 An installation video of all but the recent stuff is at
 
