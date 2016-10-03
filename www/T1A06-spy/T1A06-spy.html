@@ -6,13 +6,13 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="../main.css" rel="stylesheet">
     <script type="text/javascript">
-        function encryptTest(inId, num, outId) {
-            var str = document.getElementById(inId).value.toLowerCase();
+        function encryptTest(inId, offset, outId) {
+            var str = document.getElementById(inId).value;
             var result = '';
             var charcode = 0;
         
             for (var i = 0; i < str.length; i++) {
-                charcode = (str[i].charCodeAt()) + num;
+                charcode = (str[i].charCodeAt()) + offset;
                 result += String.fromCharCode(charcode);
             }
             document.getElementById(outId).value = result;
