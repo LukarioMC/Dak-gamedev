@@ -1,39 +1,29 @@
-<h3> Instructions</h3>
-Make an array to print out 52 random cards<br>
-Then google how to make a javascript sort function.<br>
-Make a sort function and then reprint out your sorted array.<br><br><br><br>
-
-Following are three random cards<br>
-
-
-<script>
-document.cards = new Array();
-
-
-// set the cards with random numbers
-
-for (myLoop=1; myLoop<=3; myLoop++){
-      document.cards[myLoop]= Math.floor((Math.random()*100)+1)
-}
-
-// print the random cards to the webpage
-
-for (myLoop=1; myLoop<=3; myLoop++){
-     document.write(document.cards[myLoop] +', ')
-}
-document.write('<br>')
-
-
-
-
-
-
-
-</script>
-
-
-
-
-<br>At the bottom of every page make sure you include the following button:<br>
-
-<input type=button value="Back" style="font-size:25px" onclick="{window.history.back()}"><br><br>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Javascript Array</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="../main.css" rel="stylesheet">
+    <script type="text/javascript">
+        var cards = new Array();
+        
+        function makeCards(amt){
+            for(var i=0; i<amt; i++){
+                cards[i] = Math.floor(Math.random() * (13 - 1 + 1) + 1);
+            }
+            document.getElementById("output").innerHTML = cards.join(", ");
+        }
+    </script>
+</head>
+<body>
+    <h1>Javascript Card Array by Dakaro</h1>
+    
+    <div id="output">Cards go here.</div><br>
+    
+    <input type=button value="Make a set of 52 cards" onclick="makeCards(52)">
+    <input type=button value="Sort the cards" onclick="document.getElementById('output').innerHTML = cards.sort(function(a, b){return a-b});">
+    
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>

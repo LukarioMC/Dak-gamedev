@@ -10,7 +10,7 @@
     <h1>Dakaro's Arrays</h1>
     
     <script>
-        myArray = new Array();
+        var myArray = new Array();
         myArray[0] = 35;
         myArray[1] = 17;
         myArray[2] = 404;
@@ -24,21 +24,21 @@
         
         document.writeln("Seventh (eighth) item in myArray:<br>" + myArray[7]);
         document.writeln("<br>First Array:<br>");
-        for(i=0; i<myArray.length; i++){
+        for(var i=0; i<myArray.length; i++){
             document.writeln(myArray[i]);
         }
         
-        myArray2 = [25,27,43,62,89,65,76,42,63,88];
+        var myArray2 = [25,27,43,62,89,65,76,42,63,88];
         document.writeln("<br>Second Array:<br>");
-        for(i=0; i<myArray2.length; i++){
+        for(var i=0; i<myArray2.length; i++){
             document.writeln(myArray2[i]);
         }
         
-        myArray3 = new Array();
+        var myArray3 = new Array();
         document.writeln("<br>Third Array:<br>");
-        for(i=0; i<100; i++){
-            max = 999;
-            min = 100;
+        for(var i=0; i<100; i++){
+            var max = 999;
+            var min = 100;
             myArray3[i] = Math.floor(Math.random() * (max - min + 1) + min);
             document.writeln(myArray3[i]);
         }
