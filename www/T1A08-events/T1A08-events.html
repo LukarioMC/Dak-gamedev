@@ -1,0 +1,99 @@
+<head>
+    <title>Dakaro Events</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="../main.css" rel="stylesheet">
+    <script>
+        function moveChar(id, x, y) {
+            var myX = parseInt(document.getElementById(id).style.left);
+            document.getElementById(id).style.left = (myX + x) + 'px';
+            
+            var myY = parseInt(document.getElementById(id).style.top);
+            document.getElementById(id).style.top = (myY + y) + 'px';
+        }
+        
+        function moveCharTo(id, x, y) {
+            document.getElementById(id).style.left = x + 'px';
+            document.getElementById(id).style.top = y + 'px';
+        }
+    </script>
+</head>
+<body touchstart="{
+    var touchobj = touchEvent.changedTouches[0];
+    moveCharTo('myOut', parseInt(touchobj.clientX), parseInt(touchobj.clientY));
+}" touchmove="{
+    var touchobj = touchEvent.changedTouches[0] 
+    moveCharTo('myOut', parseInt(touchobj.clientX), parseInt(touchobj.clientY));
+}" onkeyDown= "{
+    function getKey(){
+        return String.fromCharCode(event.keyCode);
+    }
+    switch(getKey()){
+        case 'W':
+        moveChar('myOut', 0, -10);
+        break;
+        case 'A':
+        moveChar('myOut', -10, 0);
+        break;
+        case 'S':
+        moveChar('myOut', 0, 10);
+        break;
+        case 'D':
+        moveChar('myOut', 10, 0);
+        break;
+    }
+    
+    //alert(getKey());
+}">
+    <h1 align=center>Basic Javascript Events by Dakaro</h1>
+    
+    
+    Note: Tap one of the WASD keys to see the object move!<br>
+    <!--
+    Instructions
+    Pass: Add to this page several links to websites that have information about javascript events.
+    Good: Add something on this page that activates for every possible javascript event.
+    Note: identify if events only work on touch screen computers.
+    -->
+    
+    <a href="http://www.w3schools.com/js/js_events.asp">W3Schools Js Events</a> | 
+    <a href="http://www.w3schools.com/js/js_events_examples.asp">W3Schools Js Events Examples</a> | 
+    <a href="http://www.w3schools.com/jsref/dom_obj_event.asp">W3Schools HTML DOM Events</a><br>
+    <a href="http://www.w3schools.com/js/js_htmldom_events.asp">W3Schools HTML DOM Events Examples</a> | 
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event">Mozilla Js Events</a> | 
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events">Mozilla Js Touch Events</a><br><br>
+    
+    <input type="text" onblur="this.value = 'Wow Rude.'" placeholder="Click me and then click somehing else"/>
+    <input type="text" onchange="this.value = 'Not a chance.'" placeholder="Submit Me"/>
+    <input type="text" onfocus="this.value = 'HEY YOU CLICKED ME'" placeholder="Click me"/>
+    <input type="text" onselect="this.value = 'I feel chosen'" value="Select me"/>
+    <br><br>
+    <input type="textarea" onmouseover="this.placeholder = 'You changed me'" placeholder="Hover over me"/>
+    <b onmousedown="this.innerHTML = 'Dont touch me'" onmouseup="this.innerHTML = 'Cant touch this?'">Cant touch this ;)</b> | 
+    <b ondblclick="this.innerHTML = 'DOUBLE KILL'">Double click me</b>
+    
+    <br><br><br><br><br>
+    <b onMouseOver="getElementById('myOut').innerHTML +=', Move me'">Copy me!</b>
+    
+    
+    <div id="myOut" style= "position:absolute;left:500;top:300;">Move me</div>
+    
+    <table style="position:absolute; left:20px; bottom:90px; z-index: 100;">
+        <tr>
+            <td><input type="button" value="&#8598;" onclick="moveChar('myOut', -5,-5);"/></td>
+            <td><input type="button" value="&uarr;" onclick="moveChar('myOut', 0,-5);"/></td>
+            <td><input type="button" value="&#8599;" onclick="moveChar('myOut', 5,-5);"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="&larr;" onclick="moveChar('myOut', -5,0);"/></td>
+            <td><input type="button" value="&bull;" onclick="moveCharTo('myOut', 500,300);"/></td>
+            <td><input type="button" value="&rarr;" onclick="moveChar('myOut', 5,0);"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="&#8601;" onclick="moveChar('myOut', -5,5);"/></td>
+            <td><input type="button" value="&darr;" onclick="moveChar('myOut', 0,5);"/></td>
+            <td><input type="button" value="&#8600;" onclick="moveChar('myOut', 5,5);"/></td>
+        </tr>
+    </table>
+    
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
