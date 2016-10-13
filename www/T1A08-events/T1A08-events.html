@@ -17,13 +17,7 @@
         }
     </script>
 </head>
-<body touchstart="{
-    var touchobj = touchEvent.changedTouches[0];
-    moveCharTo('myOut', parseInt(touchobj.clientX), parseInt(touchobj.clientY));
-}" touchmove="{
-    var touchobj = touchEvent.changedTouches[0] 
-    moveCharTo('myOut', parseInt(touchobj.clientX), parseInt(touchobj.clientY));
-}" onkeyDown= "{
+<body onkeyDown= "{
     function getKey(){
         return String.fromCharCode(event.keyCode);
     }
@@ -72,10 +66,10 @@
     <b ondblclick="this.innerHTML = 'DOUBLE KILL'">Double click me</b>
     
     <br><br><br><br><br>
-    <b onMouseOver="getElementById('myOut').innerHTML +=', Move me'">Copy me!</b>
+    <b onMouseOver="getElementById('myOut').innerHTML +=', Move it, Move it'">Copy me!</b>
     
     
-    <div id="myOut" style= "position:absolute;left:500;top:300;">Move me</div>
+    <div id="myOut" style= "position:absolute;left:500;top:300;">I Like to</div>
     
     <table style="position:absolute; left:20px; bottom:90px; z-index: 100;">
         <tr>
