@@ -65,12 +65,13 @@
     <input type="text" onfocus="this.value = 'HEY YOU ENTERED ME'" placeholder="Click me"/>
     <input type="text" onselect="this.value = document.getSelection().toString()" value="Select me"/>
     <br><br>
-    <input type="textarea" onmouseover="this.placeholder = 'You changed me'" placeholder="Hover over me"/>
-    <b onmousedown="this.innerHTML = 'Dont touch me'" onmouseup="this.innerHTML = 'Cant touch this?'">Cant touch this ;)</b> | 
-    <b ondblclick="this.innerHTML = 'DOUBLE KILL'">Double click me</b> | 
+    <input type="textarea" onmouseover="this.placeholder = 'You changed me'" placeholder="Hover over me"/><br>
+    <b onmousedown="this.innerHTML = 'Dont touch me'" onmouseup="this.innerHTML = 'Cant touch this?'">Cant touch this ;)</b><br>
+    <b ondblclick="this.innerHTML = 'DOUBLE KILL'">Double click me</b><br>
     <span id="mouseCoords"></span>
     
     <br><br><br><br><br>
+    <div id="myOut" style= "position:relative;left:0;top:0;width:auto;display: inline-block">I Like to</div><br>
     <b onMouseOver="getElementById('myOut').innerHTML +=', Move it, Move it'" style="z-index: 100;">Copy me!</b>
     <br><br>
     <ul style="text-align:left; max-width: 25%; margin:0 auto;">
@@ -90,9 +91,8 @@
     </ul>
     
     
-    <div id="myOut" style= "position:absolute;left:500;top:300;">I Like to</div>
     
-    <table style="position:absolute; left:20px; bottom:90px; z-index: 100;">
+    <table style="position:fixed; left:20px; bottom:90px; z-index: 100;">
         <tr>
             <td><input type="button" value="&#8598;" onclick="moveChar('myOut', -5,-5);"/></td>
             <td><input type="button" value="&uarr;" onclick="moveChar('myOut', 0,-5);"/></td>
