@@ -20,9 +20,7 @@
       else if(op == "add"){ total = in1 + in2; }
       else if(op == "sub"){ total = in1 - in2; }
       else if(op == "pwr"){
-        if(in1 <= 0 || in2 <= 0){
-          total = "Input a positive number";
-        }
+        if(in1 <= 0 || in2 <= 0){ total = "Input a positive number"; }
         for(var i=1; i <= in2; i++){ total *= in1; }
       }
       else{ total = "How did you manage to screw up this bad?"; }
