@@ -6,16 +6,17 @@
     <link href="../main.css" rel="stylesheet">
     <script>
       function printLines(){
-        myOut = document.getElementById('myArea');
-  	  	for(i=1; i<=7; i++){
-          		myOut.innerHTML += ' ' + i + ':';
-  	  		if(i==3 || i==7){
-  	  			myOut.innerHTML += ' Cool';
-  	  		} else{
-            			myOut.innerHTML += ' ' + document.getElementById('input1').value;
-          		}
-          		myOut.innerHTML += '<br>';
-  	  	}
+        var myOut = document.getElementById('myArea');
+        for(var i=1; i<=7; i++){
+          myOut.innerHTML += ' ' + i + ':';
+          if(i==3 || i==7){
+            myOut.innerHTML += ' Cool';
+          }
+          else{
+            myOut.innerHTML += ' ' + document.getElementById('input1').value;
+          }
+          myOut.innerHTML += '<br>';
+        }
       }
     </script>
   </head>
