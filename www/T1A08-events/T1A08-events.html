@@ -17,7 +17,7 @@
         }
     </script>
 </head>
-<body onkeyDown= "{
+<body onmousemove="document.getElementById('mouseCoords').innerHTML = event.clientX + ', ' + event.clientY;" onkeyDown= "{
     function getKey(){
         return String.fromCharCode(event.keyCode);
     }
@@ -34,11 +34,15 @@
         case 'D':
         moveChar('myOut', 10, 0);
         break;
+        case 'C':
+        getElementById('myOut').innerHTML +=', Move it, Move it';
+        break;
     }
     
     //alert(getKey());
 }">
     <h1 align=center>Basic Javascript Events by Dakaro</h1>
+    <h2 oncontextmenu="this.style='color:red;'; alert('You found the secret!')">Remember 9/9 for window.getSelection();</h2>
     
     
     Note: Tap one of the WASD keys to see the object move!<br>
@@ -57,16 +61,33 @@
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events">Mozilla Js Touch Events</a><br><br>
     
     <input type="text" onblur="this.value = 'Wow Rude.'" placeholder="Click me and then click somehing else"/>
-    <input type="text" onchange="this.value = 'Not a chance.'" placeholder="Submit Me"/>
-    <input type="text" onfocus="this.value = 'HEY YOU CLICKED ME'" placeholder="Click me"/>
-    <input type="text" onselect="this.value = 'I feel chosen'" value="Select me"/>
+    <input type="text" onchange="this.value = 'Not a chance.'" placeholder="Submit Something"/>
+    <input type="text" onfocus="this.value = 'HEY YOU ENTERED ME'" placeholder="Click me"/>
+    <input type="text" onselect="this.value = document.getSelection().toString()" value="Select me"/>
     <br><br>
     <input type="textarea" onmouseover="this.placeholder = 'You changed me'" placeholder="Hover over me"/>
     <b onmousedown="this.innerHTML = 'Dont touch me'" onmouseup="this.innerHTML = 'Cant touch this?'">Cant touch this ;)</b> | 
-    <b ondblclick="this.innerHTML = 'DOUBLE KILL'">Double click me</b>
+    <b ondblclick="this.innerHTML = 'DOUBLE KILL'">Double click me</b> | 
+    <span id="mouseCoords"></span>
     
     <br><br><br><br><br>
-    <b onMouseOver="getElementById('myOut').innerHTML +=', Move it, Move it'">Copy me!</b>
+    <b onMouseOver="getElementById('myOut').innerHTML +=', Move it, Move it'" style="z-index: 100;">Copy me!</b>
+    <br><br>
+    <ul style="text-align:left; max-width: 25%; margin:0 auto;">
+        <u>Events in order on page</u>
+        <li>onKeyDown</li>
+        <li>onContextMenu</li>
+        <li>onBlur</li>
+        <li>onChange</li>
+        <li>onFocus</li>
+        <li>onSelect</li>
+        <li>onMouseOver</li>
+        <li>onMouseDown</li>
+        <li>onMouseUp</li>
+        <li>onDblClick</li>
+        <li>onMouseMove</li>
+        <li>onClick</li>
+    </ul>
     
     
     <div id="myOut" style= "position:absolute;left:500;top:300;">I Like to</div>
