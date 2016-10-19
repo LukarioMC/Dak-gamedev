@@ -11,22 +11,22 @@
   </style>
   <script>
 	function calculate(input1, input2){
-	  op = document.getElementById('sign').value;
-      in1 = parseInt(document.getElementById(input1).value);
-      in2 = parseInt(document.getElementById(input2).value);
-	  total = 1;
-	  if(op == "mult"){ total = in1 * in2 }
-      else if(op == "div"){ total = in1 / in2 }
-      else if(op == "add"){ total = in1 + in2 }
-      else if(op == "sub"){ total = in1 - in2 }
+	  var op = document.getElementById('sign').value;
+    var in1 = parseInt(document.getElementById(input1).value);
+    var in2 = parseInt(document.getElementById(input2).value);
+    var total = 1;
+    if(op == "mult"){ total = in1 * in2; }
+      else if(op == "div"){ total = in1 / in2; }
+      else if(op == "add"){ total = in1 + in2; }
+      else if(op == "sub"){ total = in1 - in2; }
       else if(op == "pwr"){
-		if(in1 <= 0 || in2 <= 0){
-			total = "Input a positive number";
-		}
-        for(i=1; i <= in2; i++){ total *= in1 }
+        if(in1 <= 0 || in2 <= 0){
+          total = "Input a positive number";
+        }
+        for(var i=1; i <= in2; i++){ total *= in1; }
       }
-      else{ total = "How did you manage to screw up this bad?" }
-
+      else{ total = "How did you manage to screw up this bad?"; }
+      
       document.getElementById('output').innerHTML = total;
     }
   </script>
