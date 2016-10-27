@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock, Paper, Scissors!</title>
+    <link href="../main.css" rel="stylesheet">
+    <style>
+        
+    </style>
+    <script type="text/javascript">
+        var usrWin = 0;
+        var compWin = 0;
+        var gameOver = 0;
+        
+        function rps(myIn) {
+            var myOut = document.getElementById("myOutput");
+            var compChoice = Math.floor(Math.random() * 3);
+            
+            if(gameOver == 1){
+                usrWin = 0;
+                compWin = 0;
+                gameOver = 0;
+            }
+            if(myIn == "rock"){
+                if(compChoice == 0){ //Rock
+                    myOut.innerHTML= "Computer chose rock, it's a draw!";
+                }
+                else if(compChoice == 1) { //Paper
+                    myOut.innerHTML= "Computer chose paper, you lost!";
+                    compWin++;
+                }
+                else if(compChoice == 2) { //Scissors
+                    myOut.innerHTML= "Computer chose scissors, you won!";
+                    usrWin++;
+                }
+            }
+            else if(myIn == "paper"){
+                if(compChoice == 0){ //Rock
+                    myOut.innerHTML= "Computer chose rock, you won!";
+                    usrWin++;
+                }
+                else if(compChoice == 1) { //Paper
+                    myOut.innerHTML= "Computer chose paper, it's a draw!";
+                }
+                else if(compChoice == 2) { //Scissors
+                    myOut.innerHTML= "Computer chose scissors, you lost!";
+                    compWin++;
+                }
+            }
+            else if(myIn == "scissors"){
+                if(compChoice == 0){ //Rock
+                    myOut.innerHTML= "Computer chose rock, you lost!";
+                    compWin++;
+                }
+                else if(compChoice == 1) { //Paper
+                    myOut.innerHTML= "Computer chose paper, you won!";
+                    usrWin++;
+                }
+                else if(compChoice == 2) { //Scissors
+                    myOut.innerHTML= "Computer chose scissors, it's a draw!";
+                }
+            }
+            myOut.innerHTML+= "<br><b>Your wins: " + usrWin + ", Computer wins: " + compWin + "</b>";
+            
+            if(usrWin == 2 || compWin == 2){
+                if(document.getElementById("teacher").checked){ myOut.innerHTML = "<h1>You've won!</h1>"; }
+                else if(usrWin == 2){ myOut.innerHTML += "<h1>You've won!</h1>"; }
+                else { myOut.innerHTML += "<h1>You've lost!</h1>"; }
+                gameOver = 1;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors by Dakaro</h1>
+    <h3>Best 2 out of 3</h3>
+    
+    <button onclick="rps('rock')">Rock</button>
+    <button onclick="rps('paper')">Paper</button>
+    <button onclick="rps('scissors')">Scissors</button><br>
+    <input type="checkbox" id="teacher"/>Mr.Ellis Mode<br>
+    
+    <div id="myOutput"></div>
+    
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>
