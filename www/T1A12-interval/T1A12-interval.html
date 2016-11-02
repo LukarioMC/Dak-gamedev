@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interval and Timeout</title>
+    <link href="../main.css" rel="stylesheet">
+    <script>
+        var myInterval;
+        var myTimeout;
+        
+        function myMove(dist, chance){
+            var myOut = document.getElementById('output');
+            var maxBoundRight = (window.innerWidth - 2*parseInt(myOut.style.width)) - (window.innerWidth % parseInt(myOut.style.width));
+            var maxBoundBottom = (window.innerHeight - 2*parseInt(myOut.style.height)) - (window.innerHeight % parseInt(myOut.style.height));
+            var myDirection = Math.floor(Math.random()* chance);
+            
+            
+            if(myOut.style.left <= myOut.style.width){ //left bound
+                myDirection = 0;
+            }
+            if(parseInt(myOut.style.left) >= maxBoundRight){ //right bound
+                myDirection = 4;
+            }
+            if(myOut.style.top <= myOut.style.height){ //top bound
+                myDirection = 2;
+            }
+            if(parseInt(myOut.style.top) >= maxBoundBottom){ //bottom bound
+                myDirection = 6;
+            }
+            console.log(myDirection);
+            
+            //Down and left
+            if(myDirection == 0 || myDirection == 1 || myDirection == 7){
+                myOut.style.left = parseInt(myOut.style.left) + dist + "px";
+            }
+            if(myDirection == 1 || myDirection == 2 || myDirection == 3){
+                myOut.style.top = parseInt(myOut.style.top) + dist + "px";
+            }
+            //Up and Right
+            if(myDirection == 3 || myDirection == 4 || myDirection == 5){
+                myOut.style.left = parseInt(myOut.style.left) - dist + "px";
+            }
+            if(myDirection == 5 || myDirection == 6 || myDirection == 7){
+                myOut.style.top = parseInt(myOut.style.top) - dist + "px";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Intervals by Dakaro</h1>
+    <input type="button" value="setInterval"     onclick="myInterval = setInterval(function(){ myMove(30, 15); }, 100);">
+    <input type="button" value="setTimeout"      onclick="myTimeout = setTimeout(function(){ myMove(30, 15); },200);">
+    <input type="button" value="clearInterval"   onclick="clearInterval(myInterval);">
+    <input type="button" value="clearTimeout"    onclick="clearTimeout(myTimeout);">
+    <br><br>
+    
+    <div id="output" style="display: block; position: absolute; left: 100px; top: 100px; width: 30px; height: 30px; background-color: green;"></div>
+    
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>
