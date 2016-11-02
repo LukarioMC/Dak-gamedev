@@ -15,14 +15,16 @@
             var myDirection = Math.floor(Math.random()* chance);
             
             
-            if(myOut.style.left <= myOut.style.width){ //left bound
+            if(parseInt(myOut.style.left) <= parseInt(myOut.style.width)){ //left bound
                 myDirection = 0;
             }
             if(parseInt(myOut.style.left) >= maxBoundRight){ //right bound
                 myDirection = 4;
             }
-            if(myOut.style.top <= myOut.style.height){ //top bound
+            if(parseInt(myOut.style.top) <= parseInt(myOut.style.height)){ //top bound
                 myDirection = 2;
+                console.log(myOut.style.top);
+                console.log(myOut.style.height);
             }
             if(parseInt(myOut.style.top) >= maxBoundBottom){ //bottom bound
                 myDirection = 6;
@@ -46,15 +48,15 @@
         }
     </script>
 </head>
-<body>
+<body onload="var myOut = document.getElementById('output'); myOut.style.left = 4 * parseInt(myOut.style.width) + 'px'; myOut.style.top = 4 * parseInt(myOut.style.height) + 'px'">
     <h1>Intervals by Dakaro</h1>
-    <input type="button" value="setInterval"     onclick="myInterval = setInterval(function(){ myMove(30, 15); }, 100);">
+    <input type="button" value="setInterval"     onclick="myInterval = setInterval(function(){ myMove(30, 15); }, 1);">
     <input type="button" value="setTimeout"      onclick="myTimeout = setTimeout(function(){ myMove(30, 15); },200);">
     <input type="button" value="clearInterval"   onclick="clearInterval(myInterval);">
     <input type="button" value="clearTimeout"    onclick="clearTimeout(myTimeout);">
     <br><br>
     
-    <div id="output" style="display: block; position: absolute; left: 100px; top: 100px; width: 30px; height: 30px; background-color: green;"></div>
+    <div id="output" style="display: block; position: absolute; left: 0px; top: 0px; width: 30px; height: 30px; background-color: green;"></div>
     
     <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
 </body>
