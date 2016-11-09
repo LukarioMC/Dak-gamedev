@@ -9,6 +9,11 @@
         var myTimeout;
         
         function myMove(dist, chance){
+            if(myInterval != null){
+                clearInterval(myInterval);
+                myInterval = setInterval(function(){ myMove(30, 15); }, -1*document.getElementById("myRange").value+1000);
+            }
+            document.getElementById("rangeValue").innerHTML = document.getElementById("myRange").value;
             var myOut = document.getElementById('output');
             var maxBoundRight = (window.innerWidth - 2*parseInt(myOut.style.width)) - (window.innerWidth % parseInt(myOut.style.width));
             var maxBoundBottom = (window.innerHeight - 2*parseInt(myOut.style.height)) - (window.innerHeight % parseInt(myOut.style.height));
@@ -48,8 +53,13 @@
         }
     </script>
 </head>
-<body onload="var myOut = document.getElementById('output'); myOut.style.left = 4 * parseInt(myOut.style.width) + 'px'; myOut.style.top = 4 * parseInt(myOut.style.height) + 'px'">
+<body onload="var myOut = document.getElementById('output'); 
+    myOut.style.left = (window.innerWidth/2) - (parseInt(myOut.style.width)/2) + 'px';
+    myOut.style.top = (window.innerHeight/2) - (parseInt(myOut.style.height)/2) + 'px';">
     <h1>Intervals by Dakaro</h1>
+    I recieve 9/9 for range input and varying box speed with range
+    <h3 id="rangeValue">Range value goes here(How fast the box will change positions)</h3>
+    <input type="range" id="myRange" value=1000 min=0 max=1000 step=10 style="width: 75%"></input><br>
     <input type="button" value="setInterval"     onclick="myInterval = setInterval(function(){ myMove(30, 15); }, 1);">
     <input type="button" value="setTimeout"      onclick="myTimeout = setTimeout(function(){ myMove(30, 15); },200);">
     <input type="button" value="clearInterval"   onclick="clearInterval(myInterval);">
