@@ -7,9 +7,9 @@
     <script>
         var canvas;
         var canvasCtx;
+        var bx;
+        var by;
         var bw = 7;
-        var bx = 50;
-        var by = 50;
         var bsx = 5;
         var bsy = 5;
         var p1y = 250;
@@ -43,6 +43,8 @@
         window.onload = function() {
             canvas = document.getElementById("gameCanvas");
             canvasCtx = canvas.getContext("2d");
+            bx = canvas.width/2;
+            by = canvas.height/2;
             
             var fps = 30;
             setInterval(function() { moveEverything(); drawEverything(); } , 1000/fps);
@@ -57,16 +59,17 @@
         
         function drawEverything() {
             colorRect(0,0,canvas.width,canvas.height,'black');  //bg
+            canvasCtx.textAlign = "center";
             
             if(winScreen){
                 canvasCtx.fillStyle = "white";
                 if(p1s >= WINNING_SCORE){
-                    canvasCtx.fillText("Left Paddle Won!", 290, canvas.height/2);
+                    canvasCtx.fillText("Left Paddle Won!", canvas.width/2, canvas.height/2);
                 }
                 else if(p2s >= WINNING_SCORE){
-                    canvasCtx.fillText("Right Paddle Won!", 290, canvas.height/2);
+                    canvasCtx.fillText("Right Paddle Won!", canvas.width/2, canvas.height/2);
                 }
-                canvasCtx.fillText("Click to Continue", 290, canvas.height/2 + 20);
+                canvasCtx.fillText("Click to Continue", canvas.width/2, canvas.height/2 + 20);
                 return;
             }
             
@@ -75,8 +78,8 @@
             colorRect(canvas.width-PADDLE_WIDTH-50,p2y,PADDLE_WIDTH,PADDLE_HEIGHT,'white');   //p2
             colorCirc(bx,by,bw,'white'); //ball
             
-            canvasCtx.fillText(p1s, 100, 100);
-            canvasCtx.fillText(p2s, canvas.width-100, 100);
+            canvasCtx.fillText(p1s, 300, 100);
+            canvasCtx.fillText(p2s, canvas.width-300, 100);
         }
         
         function colorRect(x,y,width,height,color) {
@@ -139,6 +142,7 @@
                 winScreen = true;
             }
             bsx *= -1;
+            bsy = Math.floor(Math.random()*6);
             bx = canvas.width/2;
             by = canvas.height/2;
         }
