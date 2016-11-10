@@ -115,25 +115,22 @@
             bx += bsx;
             by += bsy;
             
-            if(bx<50+PADDLE_WIDTH+bw/2){
-                if(by>p1y && by<p1y+PADDLE_HEIGHT){
-                    bsx *= -1;
-                    var deltaY = by - (p1y+PADDLE_HEIGHT/2);
-                    bsy = deltaY * 0.35;
-                } else{
-                    p2s++;
-                    ballReset();      //bsx *= -1;
-                }
+            if(bx<50+PADDLE_WIDTH+bw && bx>50 && by>p1y && by<p1y+PADDLE_HEIGHT){
+                bsx *= -1;
+                var deltaY = by - (p1y+PADDLE_HEIGHT/2);
+                bsy = deltaY * 0.35;
             }
-            if(bx>canvas.width-(50+PADDLE_WIDTH+bw/2)){
-                if(by>p2y && by<p2y+PADDLE_HEIGHT){
-                    bsx *= -1;
-                    var deltaY = by - (p2y+PADDLE_HEIGHT/2);
-                    bsy = deltaY * 0.35;
-                } else {
+            if(bx>canvas.width-(50+PADDLE_WIDTH+bw) && bx<canvas.width-50 && by>p2y && by<p2y+PADDLE_HEIGHT){
+                bsx *= -1;
+                var deltaY = by - (p2y+PADDLE_HEIGHT/2);
+                bsy = deltaY * 0.35;
+            }
+            if(bx<bw){
+                    p2s++;
+                    ballReset();
+            } else if(bx>canvas.width-bw){
                     p1s++;
                     ballReset();
-                }
             }
         }
         
