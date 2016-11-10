@@ -42,7 +42,66 @@
             myArray3[i] = Math.floor(Math.random() * (max - min + 1) + min);
             document.writeln(myArray3[i]);
         }
+        
+        
+        var cards = new Array();
+        
+        function makeCards(amt){
+            for(var i=0; i<amt; i++){
+                cards[i] = Math.floor(Math.random() * (13 - 1 + 1) + 1);
+            }
+            document.getElementById("output").innerHTML = cards.join(",");
+        }
+        
+        var personArray = new Array();
+        personArray[0] = ["John Doe","Brown","Rainbow"];
+        
+        function makeArray() {
+            var arrLen = personArray.length;
+            personArray[arrLen] = new Array();
+            var arrName = prompt("What is the full name of this person?");
+            var arrHair = prompt("What color hair does this person have?");
+            var arrEye = prompt("What color eyes do they have?");
+            
+            for(var i=0; i<3; i++){
+                switch(i){
+                    case 0:
+                    personArray[arrLen][i] = arrName;
+                    break;
+                    case 1:
+                    personArray[arrLen][i] = arrHair;
+                    break;
+                    case 2:
+                    personArray[arrLen][i] = arrEye;
+                    break;
+                    default:
+                    personArray[arrLen][i] = "For Loop Error";
+                    break;
+                }
+            }
+        }
+        function printPersons() {
+            var result = "";
+            for(var i=0; i<personArray.length; i++){
+                for(var x=0; x<personArray[i].length; x++){
+                    result += " " + personArray[i][x];
+                }
+                result += ",";
+            }
+            document.getElementById("myDiv1").innerHTML = result;
+        }
     </script>
+    <br><br>
+    <div id="output">Cards go here.</div><br>
+    
+    <input type=button value="Make a set of 52 cards" onclick="makeCards(52)">
+    <input type=button value="Sort the cards" onclick="document.getElementById('output').innerHTML = cards.sort(function(a, b){return a-b});">
+    
+    <div id="myDiv1">Results go here</div><br>
+    
+    <input type="button" value="Add person to array" onclick="makeArray();"/>
+    <input type="button" value="Print persons array" onclick="printPersons();">
+    
     <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
 </body>
 </html>
