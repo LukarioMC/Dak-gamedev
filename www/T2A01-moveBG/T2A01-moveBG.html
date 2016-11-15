@@ -1,0 +1,39 @@
+<!doctype HTML>
+<head>
+   <meta charset="UTF-8">
+   <title>Move BG</title>
+   <script> 
+      var myBgPosY = 0;     // present vertical position
+      var myBgPosX = 0;    // present horizonal position
+      var myBgHeight = 402;    // height of background image
+      var myBgWidth = 753;  // width of background image
+      var myBgSpeedYdown = 5;    // speed moving down 
+      var myBgSpeedXright = -1;    // speed moving right
+      var fps = 30;  //FFPPPSSSSS
+      var myBgObject;
+      
+      window.onload = function() {
+         var myTimer = setInterval('myScroll()', 1000/fps)
+         myBgObject = eval('document.body');
+      };
+      
+      function myScroll() {
+         myBgPosY +=  myBgSpeedYdown;
+         myBgPosX +=  myBgSpeedXright;
+         /*myBgSpeedXright++;
+         myBgSpeedYdown++;*/
+         console.log(myBgPosX + ',' + myBgPosY);
+      
+         myBgObject.style.backgroundPosition = myBgPosX + "px " + myBgPosY + "px";
+      }
+   </script>
+</head>
+
+<body background="nsfw.jpg" style="background-size: 200px;" onload="">
+   <h1 style="color:red;" align=center>I LOVE YOU MR ELLIS BY DAKARO</h1>
+   <audio controls autoplay loop preload style="margin: 0 auto; display:block">
+      <source src="I Have Crippling Depression.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+   </audio>
+   <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
