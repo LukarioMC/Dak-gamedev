@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>objects</title>
+    <link href="../main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script>
+    var students = [];
+        function myStudent(firstName,lastName,gender,age,picture,grade,grades){
+            this.firstName = firstName.toLowerCase();
+            this.lastName = lastName.toLowerCase();
+            this.gender = gender;
+            this.studentAge = age;
+            this.studentImage = picture;
+            this.gradeLevel = grade;
+            this.grades = grades;
+            this.gradeAvg = function(){
+                var total = 0;
+                for(var i in this.grades){
+                    total += this.grades[i];
+                }
+                return total/(this.grades.length);
+            };
+        }
+        
+        function resetTable(){
+            document.getElementById('students').innerHTML = "<tr><th>First Name</th><th>Last Name</th><th>Gender</th><th>Grade</th><th>Average Percentage</th><th>Picture</th></tr>";
+        }
+        
+        function printStudent(person){
+            resetTable();
+            for(var index=0; index<students.length; index++){
+                console.log(index);
+                if(students[index].firstName == person.toLowerCase()){
+                    document.getElementById('students').innerHTML += "<tr><td>" + students[index].firstName + "</td><td>" + students[index].lastName + 
+                    "</td><td>"  + students[index].gender + "</td><td>" + students[index].gradeLevel + "</td><td>" + students[index].gradeAvg() + "</td><td><img src='" + students[index].studentImage + "'></td>"; 
+                }
+            }
+        }
+        
+        function printAll(){
+            resetTable();
+            for(var index=0; index<students.length; index++){
+                document.getElementById('students').innerHTML += "<tr><td>" + students[index].firstName + "</td><td>" + students[index].lastName + 
+                "</td><td>"  + students[index].gender + "</td><td>" + students[index].gradeLevel + "</td><td>" + students[index].gradeAvg() + "</td><td><img src='" + students[index].studentImage + "'></td>"; 
+            }
+        }
+        
+        function addStudent(){
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var gender = document.getElementById('gender').value;
+            var age = document.getElementById('age').value;
+            var profilePic = document.getElementById('profilePic').value;
+            var gradeLvl = document.getElementById('gradeLvl').value;
+            var grades = document.getElementById('grades').value;
+            
+            if(firstName != "" && lastName != "" && age != "" && gradeLvl != "" && profilePic != "" && gender != "" && grades != ""){
+                students[students.length] = new myStudent(firstName,lastName,gender,age,profilePic,gradeLvl,grades);
+            } else {
+                console.log("Something is probably empty");
+                return;
+            }
+        }
+        
+        students[0] = new myStudent('Sally','Sanderson','Female',12,'http://davemaccphotos.com/wp-content/uploads/2012/08/Davemaccphotos-Website-Portrait-21.jpg',9,[60,78,88,89]);
+        students[1] = new myStudent('Andrew','Jackson','Male',13,'http://www.gradsphotography.com/data/images1/02.jpg',10,[55,68,38,29]);
+    </script>
+    <style>
+        img {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dakaro Object's ;)</h1>
+    <input type="button" onClick="printStudent('sally');" value="Print Sally's Details">
+    <input type="button" onClick="printAll();" value="Print All Details"><br>
+    <div style="text-align: right; display: block; margin: 0 auto; max-width:50%">
+        First Name: <input id="firstName" type='text'><br>
+        Last Name: <input id="lastName" type='text'><br>
+        <select id="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select><br>
+        Age:<input id="age" type='number'><br>
+        Profile Pic URL: <input id="profilePic" type='text'><br>
+        Grade: <input id="gradeLvl" type='number'><br>
+        Grades(in percent, separated by commas): <input id="grades" type='text'><br>
+        <input type="button" onClick="addStudent();" value="Add Student"><br>
+    </div>
+    
+    <table id="students" border=1 align=center>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Grade</th>
+            <th>Average Percentage</th>
+            <th>Picture</th>
+        </tr>
+    </table>
+   <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>
