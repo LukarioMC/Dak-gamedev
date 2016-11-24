@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pong</title>
+    <link href="../main.css" rel="stylesheet">
+    <script>
+        var canvas;
+        var canvasCtx;
+        var bx;
+        var by;
+        var bw = 7;
+        var bsx = 5;
+        var bsy = 5;
+        var p1y = 250;
+        var p2y = 250;
+        var p1speed = 0;
+        var p2speed = 0;
+        var p1s = 0;
+        var p2s = 0;
+        var winScreen = false;
+        const WINNING_SCORE = 3;
+        const PADDLE_HEIGHT = 100;
+        const PADDLE_WIDTH = 10;
+        const PADDLE_OFFSET = 40;
+        
+        function handleMouseClick(evt){
+            if(winScreen){
+                p1s = 0;
+                p2s = 0;
+                winScreen = false;
+            }
+        }
+        
+        window.onload = function() {
+            canvas = document.getElementById("gameCanvas");
+            canvasCtx = canvas.getContext("2d");
+            bx = canvas.width/2;
+            by = canvas.height/2;
+            
+            var fps = 30;
+            setInterval(function() { moveEverything(); drawEverything();} , 1000/fps);
+            
+            canvas.addEventListener('mousedown',handleMouseClick);
+        };
+        
+        function drawEverything() {
+            colorRect(0,0,canvas.width,canvas.height,'black');  //bg
+            canvasCtx.textAlign = "center";
+            
+            if(winScreen){
+                canvasCtx.fillStyle = "white";
+                if(p1s >= WINNING_SCORE){
+                    canvasCtx.fillText("Left Paddle Won!", canvas.width/2, canvas.height/2);
+                }
+                else if(p2s >= WINNING_SCORE){
+                    canvasCtx.fillText("Right Paddle Won!", canvas.width/2, canvas.height/2);
+                }
+                canvasCtx.fillText("Click to Continue", canvas.width/2, canvas.height/2 + 20);
+                return;
+            }
+            
+            drawNet();
+            colorRect(PADDLE_OFFSET,p1y,PADDLE_WIDTH,PADDLE_HEIGHT,'white');    //p1
+            colorRect(canvas.width-PADDLE_WIDTH-PADDLE_OFFSET,p2y,PADDLE_WIDTH,PADDLE_HEIGHT,'white');   //p2
+            colorCirc(bx,by,bw,'white'); //ball
+            
+            canvasCtx.fillText(p1s, 300, 100);
+            canvasCtx.fillText(p2s, canvas.width-300, 100);
+        }
+        
+        function colorRect(x,y,width,height,color) {
+            canvasCtx.fillStyle = color;
+            canvasCtx.fillRect(x,y,width,height);
+        }
+        
+        function colorCirc(x,y,radius,color){
+            canvasCtx.fillStyle = color;
+            canvasCtx.beginPath();
+            canvasCtx.arc(x,y,radius,0,Math.PI*2,true);
+            canvasCtx.fill();
+        }
+        
+        function drawNet(){
+            for(var i=0; i<canvas.height; i+=40){
+                colorRect(canvas.width/2 - 1, i, 2, 20, 'white');
+            }
+        }
+        
+        function moveEverything() {
+            if(winScreen) return;
+            if(by>canvas.height||by<0) bsy *= -1;
+            if(p1y>=canvas.height-PADDLE_HEIGHT) p1y=canvas.height-PADDLE_HEIGHT;
+            if(p2y>=canvas.height-PADDLE_HEIGHT) p2y=canvas.height-PADDLE_HEIGHT;
+            if(p1y<=0) p1y=0;
+            if(p2y<=0) p2y=0;
+            bx += bsx;
+            by += bsy;
+            p1y += p1speed;
+            p2y += p2speed;
+            
+            //Make a Range for the FRONT of the paddle otherwise the ball will glitch upon being hit from the side
+            if(bx < (PADDLE_OFFSET+PADDLE_WIDTH+bw) && bx>PADDLE_OFFSET+PADDLE_WIDTH/2 &&
+                by>p1y-(bw/2) && by<p1y+PADDLE_HEIGHT+(bw/2)){
+                bsx *= -1;
+                var deltaY = by - (p1y+PADDLE_HEIGHT/2);
+                bsy = deltaY * 0.35;
+            }
+            if(bx > canvas.width-(PADDLE_OFFSET+PADDLE_WIDTH+bw) && bx<canvas.width-(PADDLE_OFFSET+PADDLE_WIDTH/2) &&
+                by>p2y-(bw/2) && by<p2y+PADDLE_HEIGHT+(bw/2)){
+                bsx *= -1;
+                var deltaY = by - (p2y+PADDLE_HEIGHT/2);
+                bsy = deltaY * 0.35;
+            }
+            if(bx<bw){
+                    p2s++;
+                    ballReset();
+            } else if(bx>canvas.width-bw){
+                    p1s++;
+                    ballReset();
+            }
+        }
+        
+        function ballReset() {
+            if(p1s >= WINNING_SCORE || p2s >= WINNING_SCORE){
+                winScreen = true;
+            }
+            bsx *= -1;
+            bsy = Math.floor(Math.random()*6);
+            bx = canvas.width/2;
+            by = canvas.height/2;
+        }
+    </script>
+</head>
+<body onkeyDown= "{
+    function getKey(){
+        return String.fromCharCode(event.keyCode);
+    }
+    switch(getKey()){
+        case 'W':
+        p1speed = -15;
+        break;
+        case 'S':
+        p1speed = 15;
+        break;
+        case 'I':
+        p2speed = -15;
+        break;
+        case 'K':
+        p2speed = 15;
+        break;
+    }
+}" onKeyUp="{
+    function getKey(){
+        return String.fromCharCode(event.keyCode);
+    }
+    if(getKey() == 'W' || getKey() == 'S'){
+        p1speed = 0;
+    }
+    if(getKey() == 'I' || getKey() == 'K'){
+        p2speed = 0;
+    }
+}">
+    <canvas id="gameCanvas" width=800 height=600 border=1></canvas><br>
+    Use WS and IK to move each paddle, respectively.
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>
