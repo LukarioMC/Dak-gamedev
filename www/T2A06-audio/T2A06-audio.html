@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <title>Audio</title>
+    <script>
+        function playAllSounds(){
+            for(var x in document.getElementsByTagName('audio')){
+                document.getElementsByTagName('audio')[x].currentTime = 0;
+                document.getElementsByTagName('audio')[x].play();
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Dakaro Audio</h1>
+    
+    <h3><i>The controls are to display which sounds are loaded, and potentially stop annoying sounds. Mostly for debugging</i></h3>
+    <audio id="depression" controls preload style="margin: 0 auto; display:block">
+      <source src="I Have Crippling Depression.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="blop" controls preload style="margin: 0 auto; display:block">
+        <source src="blop.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="9mm" controls preload style="margin: 0 auto; display:block">
+        <source src="9mm.wav" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio><audio id="depression" controls preload style="margin: 0 auto; display:block">
+      <source src="I Have Crippling Depression.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="blop" controls preload style="margin: 0 auto; display:block">
+        <source src="blop.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="9mm" controls preload style="margin: 0 auto; display:block">
+        <source src="9mm.wav" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio><audio id="depression" controls preload style="margin: 0 auto; display:block">
+      <source src="I Have Crippling Depression.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="blop" controls preload style="margin: 0 auto; display:block">
+        <source src="blop.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="9mm" controls preload style="margin: 0 auto; display:block">
+        <source src="9mm.wav" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <br>
+    
+    <button onclick="document.getElementById('9mm').currentTime = 0; document.getElementById('9mm').play();">Play 9mm.wav</button>
+    <button onclick="document.getElementById('depression').currentTime = 0; document.getElementById('depression').play();">Play I have crippling depression.mp3</button>
+    <button onclick="document.getElementById('blop').currentTime = 0; document.getElementById('blop').play();">Play blop.mp3</button>
+    <button onclick="playAllSounds();">Play all at the same time</button>
+    <br>
+    <button onclick="document.getElementById('9mm').pause();">Pause 9mm</button>
+    <button onclick="document.getElementById('depression').pause();">Pause depression</button>
+    <button onclick="document.getElementById('blop').pause();">Pause blop</button>
+    <br><b><i>Note: If you want to play the sound multiple times at the same time, you need to preload multiple versions of the same sound
+    <br> My buttons work even if the audio is playing already</i></b>
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
+</body>
+</html>
