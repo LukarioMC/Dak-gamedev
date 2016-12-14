@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Asteroids</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="../main.css" rel="stylesheet">
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #000;"></canvas>
+    <script>
+        (function () {
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+            window.requestAnimationFrame = requestAnimationFrame;
+        })();
+        
+        var canvas = document.getElementById("canvas"),
+            ctx = canvas.getContext("2d"),
+            keys = [],
+            asteroids = [],
+            width = 160,
+            height = 90,
+            player = {
+                x: width / 2,
+                y: height / 2,
+                speed: 4,
+                rotation: 0,
+                vel: 0,
+            },
+            drag = 0.97,
+            score = 0,
+            level = 1;
+            
+        canvas.width = width;
+        canvas.height = height;
+            
+        function update(){
+            if(keys[37]) player.rotation -= 3;
+            else if(keys[39]) player.rotation += 3;
+            else if(keys[38]){
+                if(player.vel < player.speed) player.vel++;
+                if(player.vel > player.speed) player.vel = player.speed;
+            }
+            if(!keys[38]) player.vel *= drag;
+            
+            ctx.fillStyle = "red";
+            ctx.fillRect(player.x, player.y, 3, 4);
+            ctx.beginPath();
+            ctx.moveTo(player.x,player.y);
+            ctx.lineTo(100,75);
+            ctx.lineTo(100,25);
+            ctx.fill();
+            
+            console.log(player.rotation + " deg, " + player.vel + "px");
+            requestAnimationFrame(update);
+        }
+        
+        document.body.addEventListener("keydown", function (e) {
+            keys[e.keyCode] = true;
+        });
+        
+        document.body.addEventListener("keyup", function (e) {
+            keys[e.keyCode] = false;
+        });
+        
+        window.addEventListener("load", function () {
+            update();
+        });
+    </script>
+</body>
+</html>

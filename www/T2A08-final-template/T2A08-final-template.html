@@ -1,208 +1,299 @@
 <html>
 <head>
-    <title>Game base for Android and Apple</title>
-    <script>
-        //Global variables here
-
-        var myBgPosY = 0; // present vertical position
-        var myBgPosX = 0; // present horizonal position
-        var myBgHeight = 402; // height of background image
-        var myBgWidth = 753; // width of background image
-        var myBgSpeedYdown = 1; // speed moving down 
-        var myBgSpeedXright = 0; // speed moving right
-        var myBgObject;
+    <title>Game base</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="../main.css" rel="stylesheet">
+    <!--<script>
+    (function () {
+        var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame; 
+        window.requestAnimationFrame = requestAnimationFrame; })();
+        
+        var canvas = document.getElementById("canvas"),
+            ctx = canvas.getContext("2d"),
+            width = 500,
+            height = 200,
+            keys = [],
+            walls = [],
+            enemies = {
+                x: -100,
+                y: -100,
+                width: 10,
+                height: 10,
+                speed: 3,
+                velX: 0,
+                velY: 0,
+                state: 0
+            },
+            player = {
+                x: width / 2,
+                y: height - 15,
+                width: 10,
+                height: 10,
+                speed: 3,
+                velX: 0,
+                velY: 0,
+                jumping: false,
+                inAir: false
+            },
+            gravity = 0.3,
+            friction = 0.8;
+        
+        canvas.width = width;
+        canvas.height = height;
         
         window.onload = function(){
-            var myBgObject = eval('document.body');
+            setInterval(updateEverything, updateRate);
         };
         
-        // ********************  Background Scrolling **************************
-        // myScroll function controls the moving of the background image
-
-        function myScroll() {
-            myAuto();
-            checkAll();
-
-            myBgPosY += myBgSpeedYdown;
-            if (myBgPosY > myBgHeight) myBgPosY = 0;
-            if (myBgPosY < 0) myBgPosY = myBgHeight;
-
-            myBgPosX += myBgSpeedXright;
-            if (myBgPosX > myBgWidth) myBgPosX = 0;
-            if (myBgPosX < 0) myBgPosX = myBgWidth;
-
-            myBgObject.style.backgroundPosition = myBgPosX + " " + myBgPosY;
+        function updateEverything(){
+            moveEverything();
+            drawFrame();
         }
-
-        // ********************  Object Detection Starts below **************************  -->
-        // myHitXY function determines if any object has hit an x, y location. Note it is better to use the myHitOther function
-
-        function myHitXY(my1, X, Y) {
-            var left1 = parseInt(document.getElementById(my1).style.left);
-            var right1 = left1 + parseInt(document.getElementById(my1).style.width);
-
-            var top1 = parseInt(document.getElementById(my1).style.top);
-            var bottom1 = top1 + parseInt(document.getElementById(my1).style.height);
-
-            if ((left1 <= X) && (right1 >= X) && (top1 <= Y) && (bottom1 >= Y)) return true;
+        
+        function drawFrame(){
+            
         }
-
-        // myHitOther function determines if two obejcts have hit each other. 
-
-        function myHitOther(my1, my2) {
-            var left1 = parseInt(document.getElementById(my1).style.left);
-            var right1 = left1 + parseInt(document.getElementById(my1).style.width);
-            var top1 = parseInt(document.getElementById(my1).style.top);
-            var bottom1 = top1 + parseInt(document.getElementById(my1).style.height);
-
-            var left2 = parseInt(document.getElementById(my2).style.left);
-            var right2 = left2 + parseInt(document.getElementById(my2).style.width);
-            var top2 = parseInt(document.getElementById(my2).style.top);
-            var bottom2 = top2 + parseInt(document.getElementById(my2).style.height);
-
-            if ((right1 >= left2) && (bottom1 >= top2) && (left1 <= right2) && (top1 <= bottom2)) return true;
-        }
-
-        // Group all your detection code here
-
-        function checkAll() {
-            if (myHitXY('move1', 200, 280)) {
-                document.getElementById('myShowDiv3').innerHTML = 'You hit the red dot';
+        
+        function moveEverything(){
+            if (keys[38] || keys[32]) {
+                // up arrow or space
+                if (!player.jumping && player.inAir) {
+                    player.jumping = true;
+                    player.inAir = false;
+                    player.velY = -player.speed * 2;
+                }
             }
-            else {
-                document.getElementById('myShowDiv3').innerHTML = '';
+            if (keys[39]) {
+                // right arrow
+                if (player.velX < player.speed) {
+                    player.velX++;
+                }
             }
-
-            if (myHitOther('move1', 'move2')) {
-                document.getElementById('myShowDiv3').innerHTML = 'You hit object move2';
+            if (keys[37]) {
+                // left arrow
+                if (player.velX > -player.speed) {
+                    player.velX--;
+                }
             }
-
-            if (myHitOther('bullet1', 'move2')) {
-                document.getElementById('myShowDiv3').innerHTML = 'The bullet hit move 2';
-                document.getElementById('bullet1').style.visibility = 'hidden';
-                document.getElementById('bullet1').style.left = '-200px';
-                clearInterval(document.myShot);
-            }
+            player.velX *= friction;
+            player.velY += gravity;
         }
-
-        // ********************  Object Detection  finished **************************  -->
-        // ********************  Object Motion Below        **************************  -->
-
-        document.mySpeedX = 0;
-        document.mySpeedY = 0;
-
-        function myAuto() {
-            if (parseInt(document.getElementById('move1').style.left) > window.innerWidth - document.getElementById('move1').width) {
-                document.mySpeedX *= -1;
-            }
-
-            document.getElementById('move1').style.left = parseInt(document.getElementById('move1').style.left) + document.mySpeedX + 'px';
-            document.getElementById('move1').style.top = parseInt(document.getElementById('move1').style.top) + document.mySpeedY + 'px';
-
-            // auto moving "move2" should occur here similar to the above.
-            //folowing code showes where move 2 and move3, move4 etc are located
-
-            document.getElementById('myShowDiv1').innerHTML = 'move1 x=' + parseInt(document.getElementById('move1').style.left) +
-                ', y=' + parseInt(document.getElementById('move1').style.top);
-
-
-            document.getElementById('myShowDiv2').innerHTML = 'move2 x=' + parseInt(document.getElementById('move2').style.left) +
-                ', y=' + parseInt(document.getElementById('move2').style.top) +
-                '<br> move2 x=' + parseInt(document.getElementById('move2').style.left) + ', y=' + parseInt(document.getElementById('move2').style.top) +
-                '<br> move2 x=' + parseInt(document.getElementById('move2').style.left) + ', y=' + parseInt(document.getElementById('move2').style.top);
+    </script>-->
+    <style>
+        body{
+            text-align: left;
         }
-
-
-        function myGunPrep() {
-            document.getElementById('bullet1').style.visibility = 'visible';
-            document.getElementById('bullet1').style.left = document.getElementById('move1').style.left;
-            document.getElementById('bullet1').style.top = document.getElementById('move1').style.top;
-
-            clearInterval(document.myShot);
-            document.myShot = setInterval('myGun()', 30); // calls the function every 30 mille seconds
-        }
-
-
-        function myGun() {
-            document.getElementById('bullet1').style.left = parseInt(document.getElementById('bullet1').style.left) + 20 + 'px';
-        }
-    </script>
+    </style>
 </head>
 
-
-<!-- ********************  Here the webpage begins **************************  -->
-<!-- ******************** onkeypress just for webpages **************************  -->
-
-<body background="myBackPic.png" onload="myTimer = setInterval('myScroll()', 100)" onkeydown="{
-document.getElementById('myShowDiv4').innerHTML = String.fromCharCode(event.keyCode) + ' = ' + event.keyCode
-
-if (String.fromCharCode(event.keyCode).toUpperCase() == 'D'){ document.getElementById('move1').style.left  = parseInt(document.getElementById('move1').style.left)+5+'px'; checkAll();}   // small 'D' key go right
-
-if (event.keyCode == 37){  } // for arrow keys
+<body onkeydown="{
+switch(String.fromCharCode(event.keyCode).toLowerCase()){
+    case 'a':
+        keys[event.keyCode] = 1;
+        console.log('a');
+    break;
+    case 's':
+        keys[event.keyCode] = 1;
+        console.log('s');
+    break;
+    case 'd':
+        keys[event.keyCode] = 1;
+        console.log('d');
+    break;
+    case 'w':
+        keys[event.keyCode] = 1;
+        console.log('w');
+    break;
+    default:
+        console.log(String.fromCharCode(event.keyCode) + ' is not mapped or detection is broken!');
+}
 }">
+    <canvas id="canvas" style="border:1px solid #000;"></canvas>
 
-    <h2 align=center style="background-color:yellow"> Game Base by ___Your Name Here ___</h2>
-
-    <!-- ********************  Some instructions that magically disappear **************************  -->
-
-    <div id="myInstructions" style="visibility:visible; width:500px; background-color:yellow" onclick="{
-document.getElementById('myInstructions').style.visibility = 'hidden'}
-">
-        <ol>Instructions here:
-        <li> Make you own game
-        <li> For this demonstration. click the buttons and the red box
-        <li> Delete the buttons you do not want in your game.
-        <li> Look at the code for each button to see how to make buttons for other directions
-        <li>You might want to use <a href="http://www.online-image-editor.com/">http://www.online-image-editor.com/</a>
-        </ol>
-        Click to hide.
-    </div><br>
-
-    <!-- ********************  Following should be all your images **************************  -->
-
-    <img id="move1" src="myMove1Pic.png" style="position:absolute; width:30px; height:30px; left:30px; top:250px" onClick="myGunPrep()">
-
-    <img id="move2" src="myMove2Pic.png" style="position:absolute; width:30px; height:30px;  left:500px; top:240px;" />
-
-    <input type=button value="Fire" onClick="myGunPrep()">
-
-    <img id="bullet1" src="myBulletPic.png" style="position:absolute; width:10px; height:10px;  left:500px; top:240px; visibility:hidden" />
-
-    <!-- ******************** This is the silly little dot the main object hits **************************  -->
-
-
-    <h1 style="position:absolute;left:200px;top:230px;">
-        <font color=red>.</font>
-    </h1>
-
-    <!-- ********************  Now all the buttons. 
-Note: ontouchstart is faster than onclick but only works on touch screens or mobile  **************************  -->
-
-    <input type=button value="BG Faster Down" onClick="myBgSpeedYdown += 1">
-
-    <input type=button value="Bg Faster Right" onClick="myBgSpeedXright += 1">
-
-    <input type=button value="Step Right Move1" onclick="{
-document.getElementById('move1').style.left  = parseInt(document.getElementById('move1').style.left)+5+'px'; checkAll() }">
-
-    <input type=button value="Step Down Move2" onclick="{
-document.getElementById('move2').style.top  = parseInt(document.getElementById('move2').style.top)+5+'px'; checkAll() }">
-
-    <input type=button value="touch event Right" ontouchstart="{
-document.getElementById('move1').style.left  = parseInt(document.getElementById('move1').style.left)+5+'px'; checkAll() }">
-
-
-    <input type=button value="Auto Down" onClick="{ document.mySpeedY += 6 }">
-    <input type=button value="Auto Right" onClick="{ document.mySpeedX  +=  4 }">
-
-    <!-- ********************  General game output **************************  -->
-
-    <div id="myShowDiv1" style="width:300px; background-color:yellow">out 1</div>
-    <div id="myShowDiv2" style="width:300px; background-color:yellow">out 2</div>
-    <div id="myShowDiv3" style="width:300px; background-color:yellow">out 3</div>
-    <div id="myShowDiv4" style="width:300px; background-color:yellow">out 4</div>
-
-    <input type=button value="Back" style="font-size:25px" onclick="{window.history.back()}"><br><br>
-
+    <script>
+        (function () {
+            var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+            window.requestAnimationFrame = requestAnimationFrame;
+        })();
+        
+        var canvas = document.getElementById("canvas"),
+            ctx = canvas.getContext("2d"),
+            width = 500,
+            height = 200,
+            player = {
+                x: width / 2,
+                y: height - 15,
+                width: 15,
+                height: 8,
+                speed: 3,
+                velX: 0,
+                velY: 0,
+                jumping: false,
+                grounded: false
+            },
+            keys = [],
+            friction = 0.8,
+            gravity = 0.3;
+        
+        var boxes = [];
+        
+        // dimensions
+        boxes.push({
+            x: 0,
+            y: 0,
+            width: 10,
+            height: height
+        });
+        boxes.push({
+            x: 0,
+            y: height - 2,
+            width: width,
+            height: 50
+        });
+        boxes.push({
+            x: width - 10,
+            y: 0,
+            width: 50,
+            height: height
+        });
+        
+        boxes.push({
+            x: 120,
+            y: 10,
+            width: 80,
+            height: 80
+        });
+        boxes.push({
+            x: 170,
+            y: 50,
+            width: 80,
+            height: 80
+        });
+        boxes.push({
+            x: 220,
+            y: 100,
+            width: 80,
+            height: 80
+        });
+        boxes.push({
+            x: 270,
+            y: 150,
+            width: 40,
+            height: 40
+        });
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        function update() {
+            // check keys
+            if (keys[38] || keys[32] || keys[87]) {
+                // up arrow or space
+                if (!player.jumping && player.grounded) {
+                    player.jumping = true;
+                    player.grounded = false;
+                    player.velY = -player.speed * 2;
+                }
+            }
+            if (keys[39] || keys[68]) {
+                // right arrow
+                if (player.velX < player.speed) {
+                    player.velX++;
+                }
+            }
+            if (keys[37] || keys[65]) {
+                // left arrow
+                if (player.velX > -player.speed) {
+                    player.velX--;
+                }
+            }
+        
+            player.velX *= friction;
+            player.velY += gravity;
+        
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            
+            player.grounded = false;
+            for (var i = 0; i < boxes.length; i++) {
+                ctx.rect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+                
+                var dir = colCheck(player, boxes[i]);
+        
+                if (dir === "l" || dir === "r") {
+                    player.velX = 0;
+                    player.jumping = false;
+                } else if (dir === "b") {
+                    player.grounded = true;
+                    player.jumping = false;
+                } else if (dir === "t") {
+                    player.velY *= -1;
+                }
+        
+            }
+            
+            if(player.grounded){
+                 player.velY = 0;
+            }
+            
+            player.x += player.velX;
+            player.y += player.velY;
+        
+            ctx.fill();
+            ctx.fillStyle = "red";
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        
+            requestAnimationFrame(update);
+        }
+        
+        function colCheck(shapeA, shapeB) {
+            // get the vectors to check against
+            var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+                vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+                // add the half widths and half heights of the objects
+                hWidths = (shapeA.width / 2) + (shapeB.width / 2),
+                hHeights = (shapeA.height / 2) + (shapeB.height / 2),
+                colDir = null;
+        
+            // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
+            if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
+                // figures out on which side we are colliding (top, bottom, left, or right)
+                var oX = hWidths - Math.abs(vX),
+                    oY = hHeights - Math.abs(vY);
+                if (oX >= oY) {
+                    if (vY > 0) {
+                        colDir = "t";
+                        shapeA.y += oY;
+                    } else {
+                        colDir = "b";
+                        shapeA.y -= oY;
+                    }
+                } else {
+                    if (vX > 0) {
+                        colDir = "l";
+                        shapeA.x += oX;
+                    } else {
+                        colDir = "r";
+                        shapeA.x -= oX;
+                    }
+                }
+            }
+            return colDir;
+        }
+        
+        document.body.addEventListener("keydown", function (e) {
+            keys[e.keyCode] = true;
+        });
+        
+        document.body.addEventListener("keyup", function (e) {
+            keys[e.keyCode] = false;
+        });
+        
+        window.addEventListener("load", function () {
+            update();
+        });
+    </script>
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
 </body>
 </html>
