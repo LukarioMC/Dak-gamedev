@@ -18,43 +18,200 @@
             ctx = canvas.getContext("2d"),
             keys = [],
             asteroids = [],
-            width = 160,
-            height = 90,
+            bullets = [],
+            bulletsize = 3,
+            width = 260,
+            height = 180,
             player = {
                 x: width / 2,
                 y: height / 2,
-                speed: 4,
+                width: 4,
+                height: 4,
+                speed: 2,
+                prevrotation: 0,
                 rotation: 0,
                 vel: 0,
             },
             drag = 0.97,
+            fired = 0,
             score = 0,
-            level = 1;
+            level = 1,
+            gameOver = 0;
             
         canvas.width = width;
         canvas.height = height;
+        
+        makeAsteroid(10,10,25);
+        
+        setInterval(function() { 
+            for(var i in bullets){
+                if(bullets[i].deathTime <= 0){
+                    bullets.splice(i,1);
+                }
+                else bullets[i].deathTime -= 1;
+            }
+            
+        }, 100);
             
         function update(){
-            if(keys[37]) player.rotation -= 3;
-            else if(keys[39]) player.rotation += 3;
-            else if(keys[38]){
+            //GameOver
+            if(gameOver){
+                ctx.fillStyle = "yellow";
+                ctx.textAlign = "center";
+                ctx.fillText("GAME OVER", width/2, height/2);
+                ctx.fillText("Press Z to restart", width/2, height/2+25);
+                var resetKey = setInterval(function() { if(keys[90]){ reset(); clearInterval(resetKey); }}, 50);
+                return;
+            }
+            
+            //Check Keys -----------------------------------------------------------------------------------------------------
+            if(keys[37]) player.rotation = (player.rotation + 3)%360;   //Left
+            if(keys[39]) player.rotation = (player.rotation - 3)%360;   //Right
+            if(keys[38]){   //Fwd
                 if(player.vel < player.speed) player.vel++;
                 if(player.vel > player.speed) player.vel = player.speed;
+                player.prevrotation = player.rotation;
             }
-            if(!keys[38]) player.vel *= drag;
+            else player.vel = Math.round(player.vel * drag * 1000)/1000;
+            if(keys[90] && !fired) shoot();
             
-            ctx.fillStyle = "red";
-            ctx.fillRect(player.x, player.y, 3, 4);
+            //Draw Stuff -----------------------------------------------------------------------------------------------------
+            ctx.clearRect(0,0, width, height);
+            ctx.fillStyle = "Black";
+            ctx.fillRect(0,0,width,height);
+            ctx.fillStyle = "white";
+            ctx.fillText(score, 10, height-10);
+            
+            //Draw Aiming line
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(player.x,player.y);
-            ctx.lineTo(100,75);
-            ctx.lineTo(100,25);
-            ctx.fill();
+            ctx.moveTo(player.x + (player.width/2), player.y + (player.height/2));
+            ctx.lineTo( player.x + (player.width/2) + (Math.cos((player.rotation/360)*2*Math.PI) * 10), player.y + (player.height/2) + (Math.sin((player.rotation/360)*2*Math.PI) * -10));
+            ctx.stroke();
             
-            console.log(player.rotation + " deg, " + player.vel + "px");
+            //Draw Player
+            ctx.fillStyle = "red";
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            //Draw Bullets
+            for(i in bullets){
+                ctx.fillStyle = "gray";
+                ctx.fillRect(bullets[i].x, bullets[i].y, bulletsize, bulletsize);
+            }
+            //Draw Asteroids
+            for(var i in asteroids){
+                ctx.fillStyle = "white";
+                ctx.fillRect(asteroids[i].x, asteroids[i].y, asteroids[i].size, asteroids[i].size);
+            }
+            
+            //MovePlayer Check boundaries -----------------------------------------------------------------------------------------------------
+            if(player.x < -player.width) player.x = width;
+            if(player.x > width) player.x = -player.width;
+            if(player.y < -player.width) player.y = height;
+            if(player.y > height) player.y = -player.height;
+            player.x += Math.cos((player.prevrotation/360)*2*Math.PI) * player.vel;         //Convert Degrees to a x value
+            player.y += Math.sin((player.prevrotation/360)*2*Math.PI) * player.vel * -1;    //Convert Degrees to a y value, -1 is there because Y values begin at 0
+            
+            console.log(player.rotation + " deg, " + player.vel + "px " + bullets.length);               //Debug in console with degrees and velocity
+            
+            //MoveBullets
+            for(i in bullets){
+                if(bullets[i].x < -bulletsize) bullets[i].x = width;
+                if(bullets[i].x > width) bullets[i].x = -bulletsize;
+                if(bullets[i].y < -bulletsize) bullets[i].y = height;
+                if(bullets[i].y > height) bullets[i].y = -bulletsize;
+                else {
+                    bullets[i].x += Math.cos((bullets[i].firerotation/360)*2*Math.PI) * 5;         //Convert Degrees to a x value
+                    bullets[i].y += Math.sin((bullets[i].firerotation/360)*2*Math.PI) * -5;    //Convert Degrees to a y value, -1 is there because Y values begin at 0
+                }
+            }
+            
+            //MoveAsteroids
+            for(i in asteroids){
+                if(asteroids[i].x < -asteroids[i].size) asteroids[i].x = width;
+                if(asteroids[i].x > width) asteroids[i].x = -asteroids[i].size;
+                if(asteroids[i].y < -asteroids[i].size) asteroids[i].y = height;
+                if(asteroids[i].y > height) asteroids[i].y = -asteroids[i].size;
+                
+                asteroids[i].x += Math.cos((asteroids[i].rotation/360)*2*Math.PI) * asteroids[i].vel;         //Convert Degrees to a x value
+                asteroids[i].y += Math.sin((asteroids[i].rotation/360)*2*Math.PI) * -asteroids[i].vel;    //Convert Degrees to a y value, -1 is there because Y values begin at 0
+            }
+            
+            //Check Collisions -----------------------------------------------------------------------------------------------------
+            //Collisions with asteroids
+            for(i in asteroids){
+                if(player.x >= asteroids[i].x - player.width && player.x <= asteroids[i].x + asteroids[i].size &&
+                    player.y >= asteroids[i].y - player.height && player.y <= asteroids[i].y + asteroids[i].size){
+                    gameOver = 1;
+                }
+                for(var x in bullets){
+                    if(bullets[x].x >= asteroids[i].x - bulletsize && bullets[x].x <= asteroids[i].x + asteroids[i].size &&
+                    bullets[x].y >= asteroids[i].y - bulletsize && bullets[x].y <= asteroids[i].y + asteroids[i].size){
+                        bullets.splice(x,1);
+                        breakAsteroid(i);
+                    }
+                }
+            }
+            
+            //Recursiveness ;)
             requestAnimationFrame(update);
         }
         
+        function makeAsteroid(x,y,size){
+            asteroids.push({
+                x: x,
+                y: y,
+                rotation: Math.floor(Math.random()*360),
+                size: size,
+                vel: 10*(level/size),
+            });
+        }
+        
+        function breakAsteroid(i){
+            if(asteroids[i].size <= 10){
+                asteroids.splice(i,1);
+                score += 100;
+                return;
+            }
+            makeAsteroid(asteroids[i].x, asteroids[i].y, asteroids[i].size/2);
+            makeAsteroid(asteroids[i].x, asteroids[i].y, asteroids[i].size/2);
+            asteroids.splice(i,1);
+            score += 10;
+        }
+        
+        function shoot(){
+            bullets.push({
+                x: player.x,
+                y: player.y,
+                firerotation: player.rotation,
+                deathTime: 4,
+            });
+            fired = true;
+            setTimeout(function(){ fired = false; }, 200);
+        }
+        
+        function reset(){
+            player.x = width/2;
+            player.y = height/2;
+            player.vel = 0;
+            score = 0;
+            level = 1;
+            asteroids = [];
+            if(gameOver){
+                gameOver = 0;
+                update();
+            }
+        }
+        /*
+        function spawnAsteroids(){ //min 10, max 40
+            for(var i=0; i<=level; i++){
+                var newx = Math.abs(Math.cos(2 * Math.PI * Math.Random()));
+                var newy = Math.abs(Math.cos(2 * Math.PI * Math.Random()));
+                makeAsteroid(newx, placeholder, (Math.random()*30) + 10);
+            }
+        }
+        */
         document.body.addEventListener("keydown", function (e) {
             keys[e.keyCode] = true;
         });
