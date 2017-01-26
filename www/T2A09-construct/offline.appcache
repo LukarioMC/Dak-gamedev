@@ -1,12 +1,14 @@
 ﻿CACHE MANIFEST
-#1483464196
+#1485159041
 data.js
 c2runtime.js
 jquery-2.1.1.min.js
-images/backgroundtile.png
 images/player-sheet0.png
-images/solidtile.png
-images/jumpthrutile.png
+images/tiledbackground.png
+images/bullet-sheet0.png
+images/asteroid-sheet0.png
+images/asteroid-sheet1.png
+images/spawner-sheet0.png
 icon-16.png
 icon-32.png
 icon-114.png

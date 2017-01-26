@@ -41,7 +41,7 @@
         canvas.width = width;
         canvas.height = height;
         
-        makeAsteroid(10,10,25);
+        spawnAsteroids();
         
         setInterval(function() { 
             for(var i in bullets){
@@ -52,6 +52,24 @@
             }
             
         }, 100);
+        
+        setInterval(function() {
+            //Check Collisions -----------------------------------------------------------------------------------------------------
+            //Collisions with asteroids
+            for(var i in asteroids){
+                if(player.x >= asteroids[i].x - player.width && player.x <= asteroids[i].x + asteroids[i].size &&
+                    player.y >= asteroids[i].y - player.height && player.y <= asteroids[i].y + asteroids[i].size){
+                    gameOver = 1;
+                }
+                for(var x in bullets){
+                    if(bullets[x].x >= asteroids[i].x - bulletsize && bullets[x].x <= asteroids[i].x + asteroids[i].size &&
+                    bullets[x].y >= asteroids[i].y - bulletsize && bullets[x].y <= asteroids[i].y + asteroids[i].size){
+                        bullets.splice(x,1);
+                        breakAsteroid(i);
+                    }
+                }
+            }
+        }, 7);
             
         function update(){
             //GameOver
@@ -123,7 +141,7 @@
                 if(bullets[i].y > height) bullets[i].y = -bulletsize;
                 else {
                     bullets[i].x += Math.cos((bullets[i].firerotation/360)*2*Math.PI) * 5;         //Convert Degrees to a x value
-                    bullets[i].y += Math.sin((bullets[i].firerotation/360)*2*Math.PI) * -5;    //Convert Degrees to a y value, -1 is there because Y values begin at 0
+                    bullets[i].y += Math.sin((bullets[i].firerotation/360)*2*Math.PI) * -5;    //Convert Degrees to a y value, - is there because Y values begin at 0
                 }
             }
             
@@ -138,20 +156,16 @@
                 asteroids[i].y += Math.sin((asteroids[i].rotation/360)*2*Math.PI) * -asteroids[i].vel;    //Convert Degrees to a y value, -1 is there because Y values begin at 0
             }
             
-            //Check Collisions -----------------------------------------------------------------------------------------------------
-            //Collisions with asteroids
-            for(i in asteroids){
-                if(player.x >= asteroids[i].x - player.width && player.x <= asteroids[i].x + asteroids[i].size &&
-                    player.y >= asteroids[i].y - player.height && player.y <= asteroids[i].y + asteroids[i].size){
-                    gameOver = 1;
+            //Next Level
+            if(asteroids.length == 0){
+                if(score > 1000){
+                    window.location = "http://gamedev-lukariomc.c9users.io/T2A09-construct/index.html";
+                    return;
                 }
-                for(var x in bullets){
-                    if(bullets[x].x >= asteroids[i].x - bulletsize && bullets[x].x <= asteroids[i].x + asteroids[i].size &&
-                    bullets[x].y >= asteroids[i].y - bulletsize && bullets[x].y <= asteroids[i].y + asteroids[i].size){
-                        bullets.splice(x,1);
-                        breakAsteroid(i);
-                    }
-                }
+                level++;
+                player.x = width/2;
+                player.y = height/2;
+                spawnAsteroids();
             }
             
             //Recursiveness ;)
@@ -198,20 +212,22 @@
             score = 0;
             level = 1;
             asteroids = [];
+            spawnAsteroids();
             if(gameOver){
                 gameOver = 0;
                 update();
             }
         }
-        /*
+        
         function spawnAsteroids(){ //min 10, max 40
             for(var i=0; i<=level; i++){
-                var newx = Math.abs(Math.cos(2 * Math.PI * Math.Random()));
-                var newy = Math.abs(Math.cos(2 * Math.PI * Math.Random()));
-                makeAsteroid(newx, placeholder, (Math.random()*30) + 10);
+                Math.cos(Math.PI*Math.random());
+                var newx = Math.cos(Math.PI * Math.random()) * width;
+                var newy = Math.cos(Math.PI * Math.random()) * height;
+                makeAsteroid(newx, newy, (Math.random()*30) + 10);
             }
         }
-        */
+        
         document.body.addEventListener("keydown", function (e) {
             keys[e.keyCode] = true;
         });
@@ -224,5 +240,6 @@
             update();
         });
     </script>
+    <input type=button value="Back" style="font-size:25px; position:fixed; left:30px; bottom:30px;" onclick="window.history.back();">
 </body>
 </html>
